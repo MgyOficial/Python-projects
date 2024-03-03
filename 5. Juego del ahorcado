@@ -1,0 +1,27 @@
+from random import choice
+
+palabra = choice(["Estructura", "Manzana", "Deportista"])
+rayas = ["_" if letra.isalpha() else letra for letra in palabra]
+intentos = 6
+
+print("".join(rayas))
+
+while intentos > 0 and "_" in rayas:
+    letra = input("Ingrese una letra: ").lower()
+
+    if not letra.isalpha():
+        print("Debe indicar una letra.")
+        continue
+
+    if letra in palabra.lower():
+        rayas = [letra if letra_palabra.lower() == letra else rayas[i] for i, letra_palabra in enumerate(palabra)]
+        print("".join(rayas))
+    else:
+        intentos -= 1
+        print("".join(rayas))
+        print(f"Te quedan {intentos} intentos.")
+
+if "_" not in rayas:
+    print("¡Felicitaciones, has completado la palabra!")
+else:
+    print("Se agotaron los intentos")
