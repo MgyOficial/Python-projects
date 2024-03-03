@@ -1,0 +1,16 @@
+Texto= input("Ingrese un texto: ").lower()
+Letras= list(input("Ingrese 3 letras: ").lower())
+Respuesta=input("Ingrese una palabra por buscar: ").lower() in Texto
+
+Dic={True:"si",False:"no"}
+Palabras= Texto.split(" ")
+
+print(f"""
+La cantidad de palabras en el texto son: {len(Palabras)}
+La letra '{Letras[0]}' aparece: {Texto.count(Letras[0])}
+La letra '{Letras[1]}' aparece: {Texto.count(Letras[1])}
+La letra '{Letras[2]}' aparece: {Texto.count(Letras[2])}
+La primera letra del texto es '{Texto[0]}' y la última letra es '{Texto[-1]}')
+La palabra buscada {Dic[Respuesta].upper()} se encuentra""")
+
+print(" ".join(Palabras[::-1]))
