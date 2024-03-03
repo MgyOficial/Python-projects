@@ -1,0 +1,8 @@
+nombre = input("Indique un nombre: ")
+pais = input("Indique un nombre: ")
+
+print(f"El nombre ingresado es '{nombre}' y el pais seleccionado es '{pais}'.")
+
+#
+
+print(f"El nombre ingresado es '{input("Indique un nombre: ")}' y el pais seleccionado es '{input("Indique un nombre: ")}'.")
