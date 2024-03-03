@@ -1,0 +1,10 @@
+nombre=input("Indique un nombre: ")
+ventas=int(input("Indique el valor de sus ventas: "))
+
+def FormatoMoneda(valor):
+    return f"${valor:,.0f} COP"
+
+
+print(f"""El nombre ingresado es: '{nombre}'
+Las ventas registradas son de: '{FormatoMoneda(ventas)}'
+Su comisión del mes es de : {FormatoMoneda(ventas * 0.13)}""")
