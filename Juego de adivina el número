@@ -1,0 +1,22 @@
+from random import *
+
+Intentos = 8
+Resultado= randint(1,100)
+Nombre = input("Indica tu nombre: ")
+print(f"Bueno, {Nombre}, he pensado un número entre 1 y 100, y tienes solo ocho intentos para adivinar cuál crees que es el número")
+while Intentos != 0:
+    Respuesta = int(input("Indique un número: "))
+    if Respuesta == Resultado:
+        print(f"¡Felicidades, {nombre}! Has ganado en el intento {intento_actual}.")
+        break
+    elif not 1 <= respuesta <= 100:
+        print("ha elegido un número que no está permitido")
+    elif Respuesta > Resultado:
+        print("Su respuesta es incorrecta y que ha elegido un número mayor al número secreto")
+    elif Respuesta < Resultado:
+        print("Su respuesta es incorrecta y que ha elegido un número menor al número secreto")
+
+    Intentos -= 1
+    print(f"Intentos restantes {Intentos}")
+else:
+    print(f"Se te han agotado los intentos, la respuesta es {Resultado}")
