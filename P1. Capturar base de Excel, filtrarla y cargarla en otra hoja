@@ -1,0 +1,31 @@
+import pandas as pd
+from tkinter import filedialog
+import time
+
+tiempo_inicio = time.time()
+
+ruta_archivo = filedialog.askopenfilename(title="Selecciona un archivo Excel", filetypes=[("Archivos Excel", "*.xlsx;*.xls")])
+
+if not ruta_archivo:
+    print("No se seleccionó ningún archivo.")
+    exit()
+
+df = pd.read_excel(ruta_archivo, sheet_name="BD 3")
+
+criterio = df["NOMBRE VENDEDOR"].str.contains("SANDRA RUIZ", case=False)
+
+filas_seleccionadas = df[criterio]
+
+with pd.ExcelWriter(ruta_archivo, engine='openpyxl', mode='a') as writer:
+    filas_seleccionadas.to_excel(writer, sheet_name='Hoja2', index=False)
+
+print(filas_seleccionadas)
+
+# Registrar el tiempo de finalización
+tiempo_fin = time.time()
+
+# Calcular el tiempo total de ejecución
+tiempo_total = tiempo_fin - tiempo_inicio
+
+print(f"DataFrame filtrado exportado a la hoja 'Hoja2' en el mismo archivo Excel.")
+print(f"Tiempo total de ejecución: {tiempo_total} segundos.")
