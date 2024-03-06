@@ -1,0 +1,52 @@
+from pathlib import Path
+from os import system
+#FUNCIONES////////////////////////////////////////////////////
+#fx:Crear opciones
+def imprimir_opciones(opciones):
+    print("\n".join(f"{i}. {item}" for i, item in enumerate(opciones,1)))
+#fx:Menu principal
+def Menu_principal():
+    opciones = ["Leer recetas", "Crear categoria", "Crear receta", "Eliminar categoria", "Eliminar receta", "Cerrar aplicación"]
+    imprimir_opciones(opciones)
+    return int(input("\nElige una de las opciones: "))
+#fx: categorias
+def manejo_opciones(ruta):
+    opciones =[item.name for item in ruta.iterdir()] + ["Menú principal"]
+    imprimir_opciones(opciones)
+    respuesta = int(input("\nElige una de las categorias: "))
+    if opciones[respuesta-1] != "Menú principal":
+        return list(enumerate(ruta.iterdir(),1))[respuesta-1][1]
+    else:
+        return "Menú principal"
+#PROCEDIMIENTOS/////////////////////////////////////////////
+
+ruta = Path("D:/Python/Material/Día 6/8.8 Recetas")
+validador = False
+print("¡Bienvenido a tu sistema de recetas!\n")
+
+while validador != True:
+    accion = (Menu_principal())
+    system("cls")
+    if accion == 6:
+        validador = True
+    match accion:
+        case 1:
+            categoria = manejo_opciones(ruta)
+            system("cls")
+            if categoria != "Menú principal":
+                RutaReceta = manejo_opciones(categoria)
+                system("cls")
+                if RutaReceta != "Menú principal":
+                    RutaReceta =open(RutaReceta)
+                    system("cls")
+                    print(f"{RutaReceta.read()}")
+                    input("\nPresione enter para volver al menu principal.")
+                    system("cls")
+        case 3:
+            categoria = manejo_opciones(ruta)
+            system("cls")
+            if categoria != "Menú principal":
+                print(categoria)
+                input("\nPresione enter para volver al menu principal.")
+                system("cls")
+exit()
