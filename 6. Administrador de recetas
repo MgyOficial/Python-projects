@@ -4,77 +4,77 @@ from os import system
 # FUNCIONES////////////////////////////////////////////////////
 # fx:Crear opciones
 def imprimir_opciones(opciones):
+    os.system("cls")
+    print(f"¡Sistema de recetas!\n")
     print("\n".join(f"{i}. {item}" for i, item in enumerate(opciones, 1)))
 # fx:Menu principal
 def Menu_principal():
     opciones = ["Leer recetas", "Crear categoria", "Crear receta", "Eliminar categoria",
                 "Eliminar receta", "Cerrar aplicación"]
     imprimir_opciones(opciones)
-    return int(input("\nElige una de las opciones: "))
+    Val_Rango = False
+    while not Val_Rango:
+        Respuesta = int(input("\nElige una de las opciones: "))
+        if Respuesta in range(1,len(opciones)+1):
+            Val_Rango = True
+            return Respuesta
+        else:
+            print("Opción no valida.")
 # fx: categorias
 def manejo_opciones(ruta):
     opciones = [item.name for item in ruta.iterdir()] + ["Menú principal"]
     imprimir_opciones(opciones)
-    respuesta = int(input("\nElige una de las categorias: "))
-    if opciones[respuesta - 1] != "Menú principal":
-        return list(enumerate(ruta.iterdir(), 1))[respuesta - 1][1]
-    else:
-        return "Menú principal"
+    Val_Rango = False
+    while not Val_Rango:
+        Respuesta = int(input("\nElige una de las opciones: "))
+        if Respuesta in range(1, len(opciones) + 1):
+            Val_Rango = True
+            if opciones[Respuesta - 1] != "Menú principal":
+                return list(enumerate(ruta.iterdir(), 1))[Respuesta - 1][1]
+            else:
+                return "Menú principal"
+        else:
+            print("Opción no valida.")
 # PROCEDIMIENTOS/////////////////////////////////////////////
 ruta = Path("D:/Python/Material/Día 6/8.8 Recetas")
 validador = False
-print("¡Bienvenido a tu sistema de recetas!\n")
-while validador != True:
+while not validador:
     accion = (Menu_principal())
-    system("cls")
-    if accion == 6:
-        validador = True
     match accion:
-        case 1:
+        case 1 | 3 | 5:
             categoria = manejo_opciones(ruta)
-            system("cls")
             if categoria != "Menú principal":
-                RutaReceta = manejo_opciones(categoria)
-                system("cls")
-                if RutaReceta != "Menú principal":
-                    RutaReceta = open(RutaReceta)
-                    system("cls")
-                    print(f"{RutaReceta.read()}")
+                if accion == 1 or accion == 5:
+                    RutaReceta = manejo_opciones(categoria)
+                    if RutaReceta != "Menú principal":
+                        if accion == 1:
+                            with open(RutaReceta) as receta_file:
+                                os.system("cls")
+                                print(receta_file.read())
+                                input("\nPresione enter para volver al menú principal.")
+                        elif accion == 5:
+                            os.remove(RutaReceta)
+                            input("\nPresione enter para volver al menu principal.")
+                elif accion == 3:
+                    Nombre = input("Ingrese el nombre la nueva receta: ")
+                    Contenido = input("Ingrese la descripción de la nueva receta: ")
+                    NuevoArchivo = Path(categoria, f"{Nombre}.txt")
+                    with open(NuevoArchivo, "w") as nueva_receta:
+                        nueva_receta.write(Contenido)
                     input("\nPresione enter para volver al menu principal.")
-                    system("cls")
         case 2:
+            os.system("cls")
             Nombre = input("Ingrese el nombre de la nueva categoria: ")
             NuevoArchivo = ruta/Nombre
             NuevoArchivo.mkdir()
             input("\nPresione enter para volver al menu principal.")
-            system("cls")
-        case 3:
-            categoria = manejo_opciones(ruta)
-            system("cls")
-            if categoria != "Menú principal":
-                Nombre = input("Ingrese el nombre la nueva receta: ")
-                Contenido = input("Ingrese la descripción de la nueva receta: ")
-                NuevoArchivo = Path(categoria, f"{Nombre}.txt")
-                Nueva_Receta = open(NuevoArchivo, "w")
-                Nueva_Receta.write(Contenido)
-                Nueva_Receta.close()
-                input("\nPresione enter para volver al menu principal.")
-                system("cls")
         case 4:
             categoria = manejo_opciones(ruta)
-            system("cls")
+            os.system("cls")
             if categoria != "Menú principal":
-                os.rmdir(categoria)
+                    os.rmdir(categoria)
             input("\nPresione enter para volver al menu principal.")
-            system("cls")
-        case 5:
-            categoria = manejo_opciones(ruta)
-            system("cls")
-            if categoria != "Menú principal":
-                RutaReceta = manejo_opciones(categoria)
-                system("cls")
-                if RutaReceta != "Menú principal":
-                    os.remove(RutaReceta)
-                    input("\nPresione enter para volver al menu principal.")
-                    system("cls")
+        case 6:
+            os.system("cls")
+            validador = True
 exit()
