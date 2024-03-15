@@ -1,0 +1,87 @@
+import os
+#CLASES//////////////////////////////////////////////////////////////////////////////////////////////////////
+#Clase1: Personas generales
+class Persona:
+    def __init__(self,nombre,apellido):
+        self.nombre = nombre
+        self.apellido = apellido
+#Calse2: Detalle del cliente y sus acciones
+class Cliente(Persona):
+    def __init__(self,nombre,apellido,Cuenta,Balance):
+        super().__init__(nombre,apellido)
+        self.Cuenta = Cuenta
+        self.Balance = Balance
+    def __str__(self):
+        return f"Usuario: {self.nombre} {self.apellido}\nCuenta N°: {self.Cuenta}\nBalance: {FormatoMoneda(self.Balance)})"
+    def depositar(self,cantidad):
+        self.Balance += cantidad
+        print(f"Se han depositado {FormatoMoneda(cantidad)}.\nNuevo balance: {FormatoMoneda(self.Balance)}.")
+    def retirar(self,cantidad):
+        if cantidad <= self.Balance:
+            self.Balance -= cantidad
+            print(f"Se han retirado {FormatoMoneda(cantidad)}.\nNuevo balance: {FormatoMoneda(self.Balance)}.")
+        else:
+            print("Fondos insuficientes. No se puede completar la transacción.")
+#FUNCIONES///////////////////////////////////////////////////////////////////////////////////////////////////
+#Fx: Crear formato de moneda
+def FormatoMoneda(valor):
+    return f"${valor:,.0f} COP"
+#Fx: Crear un cliente nuevo
+def crear_cliente():
+    nombre = input("Ingrese el nombre del cliente: ")
+    apellido = input("Ingrese el apellido del cliente: ")
+    Cuenta = input("Ingrese el número de cuenta del cliente: ")
+    Balance = 0
+    return Cliente(nombre, apellido, Cuenta, Balance)
+#Fx: Funcionamiento de la aplicación
+def inicio():
+    clientes = []
+    while True:
+        os.system("cls")
+        print("\n¿Qué desea hacer?\n1. Crear un nuevo cliente\n2. Seleccionar un cliente existente\n3. Salir del programa")
+        opcion = input("Ingrese el número de la opción que desea realizar: ")
+        os.system("cls")
+        if opcion == "1":
+            cliente_nuevo = crear_cliente()
+            clientes.append(cliente_nuevo)
+            print(f"{input("Cliente creado exitosamente.\nPresione Enter para continuar...")}")
+        elif opcion == "2":
+            if not clientes:
+                print(f"{input("No hay clientes creados.\nPresione Enter para continuar...")}")
+            else:
+                print("Clientes disponibles:")
+                for i, cliente in enumerate(clientes):
+                    print(f"{i + 1}. {cliente.nombre} {cliente.apellido}")
+                seleccion = int(input("Seleccione el cliente (número): ")) - 1
+                if seleccion >= 0 and seleccion < len(clientes):
+                    cliente_actual = clientes[seleccion]
+                    while True:
+                        os.system("cls")
+                        print(f"Cliente seleccionado: {cliente_actual.nombre} {cliente_actual.apellido}")
+                        print("\n¿Qué operación desea realizar?\n1. Depositar\n2. Retirar\n3. Mostrar balance\n4. Cambiar de cliente")
+                        opcion_cliente = input("Ingrese el número de la opción que desea realizar: ")
+                        if opcion_cliente == "1":
+                            cantidad = float(input("Ingrese la cantidad a depositar: "))
+                            cliente_actual.depositar(cantidad)
+                            input("Presione Enter para continuar...")
+                        elif opcion_cliente == "2":
+                            cantidad = float(input("Ingrese la cantidad a retirar: "))
+                            cliente_actual.retirar(cantidad)
+                            input("Presione Enter para continuar...")
+                        elif opcion_cliente == "3":
+                            print(f"{input(f"{cliente_actual}\nPresione Enter para continuar...")}")
+                        elif opcion_cliente == "4":
+                            os.system("cls")
+                            break
+                        else:
+                            print(f"{input("Opción inválida. Por favor, ingrese un número válido.\nPresione Enter para continuar...")}")
+                else:
+                    print(f"{input("Cliente seleccionado no válido.\nPresione Enter para continuar...")}")
+        elif opcion == "3":
+            print("¡Hasta luego!")
+            break
+        else:
+            print(f"{input("Opción inválida. Por favor, ingrese un número válido.\nPresione Enter para continuar.")}")
+#PROCEDIMIENTOS///////////////////////////////////////////////////////////////////////////////////////////////////
+if __name__ == "__main__":
+    inicio()
